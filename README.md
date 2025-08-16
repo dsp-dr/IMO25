@@ -36,15 +36,15 @@ This project consists of the following components:
 
 1. **Python 3.10+** installed on your system (tested with Python 3.11)
 2. **Google Gemini API key** - Get one from [Google AI Studio](https://ai.google.dev/gemini-api/docs/models#gemini-2.5-pro)
-3. **Required Python packages**:
-   ```bash
-   pip install requests python-dotenv
-   ```
 
 ## Setup
 
 1. **Clone or download the project files**
-2. **Set up your API key**:
+2. **Install dependencies**:
+   ```bash
+   pip install -r requirements.txt
+   ```
+3. **Set up your API key**:
    ```bash
    # Copy the example environment file
    cp .env.example .env
@@ -52,9 +52,6 @@ This project consists of the following components:
    # GEMINI_API_KEY=your_api_key_here
    ```
    - The system also supports `GOOGLE_API_KEY` for backwards compatibility
-3. **Optional: Use direnv for automatic environment loading**:
-   - The project includes a `.envrc` file for direnv users
-   - Run `direnv allow` to automatically load environment variables
 
 ## Usage
 
