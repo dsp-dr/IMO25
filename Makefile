@@ -3,13 +3,16 @@
 # Python to use
 PYTHON := python3
 
+# Include Lean4 integration if available
+-include Makefile.lean
+
 # Actual file targets
 .env: .env.example
 	cp $< $@
 	@echo "Created .env from .env.example - please update with your API credentials"
 
 # Phony targets
-.PHONY: help setup test clean env run-agent run-imo01
+.PHONY: help setup test clean env run-agent run-imo01 logs-summary verify
 
 help:
 	@echo "Available targets:"
@@ -18,7 +21,11 @@ help:
 	@echo "  make test        - Run tests"
 	@echo "  make run-imo01   - Run agent on problem 1"
 	@echo "  make run-agent   - Run agent with custom problem file"
+	@echo "  make logs-summary - Generate solution summary report"
+	@echo "  make verify      - Run verification pipeline"
 	@echo "  make clean       - Clean generated files"
+	@echo ""
+	@echo "For Lean4 integration targets, run: make lean-help"
 
 env: .env
 
@@ -46,3 +53,14 @@ run-agent: .env
 		exit 1; \
 	fi
 	$(PYTHON) code/agent.py $(PROBLEM)
+
+# Generate solution summary from logs
+logs-summary:
+	@echo "Generating solution summary..."
+	@$(PYTHON) scripts/summarize_solutions.py logs/ > logs/SUMMARY.md
+	@echo "Summary saved to logs/SUMMARY.md"
+	@cat logs/SUMMARY.md
+
+# Simple verification (just summarize current results)
+verify: logs-summary
+	@echo "Verification complete. See logs/SUMMARY.md for details."
