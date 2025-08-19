@@ -201,3 +201,10 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Lean4 installation files
+tools/lean-*
+tools/lean4
+tools/*.zip
+.zip
+

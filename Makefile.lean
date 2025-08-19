@@ -14,15 +14,20 @@ LAKE_BIN := $(LEAN_DIR)/bin/lake
 # Detect OS for correct download
 UNAME_S := $(shell uname -s)
 ifeq ($(UNAME_S),Linux)
-    LEAN_PLATFORM := linux
+LEAN_PLATFORM := linux
 else ifeq ($(UNAME_S),Darwin)
-    LEAN_PLATFORM := macos
+LEAN_PLATFORM := macos
 else ifeq ($(UNAME_S),FreeBSD)
-    LEAN_PLATFORM := linux  # Use Linux build on FreeBSD
+LEAN_PLATFORM := linux
+else
+LEAN_PLATFORM := linux
 endif
 
 LEAN_ZIP := $(TOOLS_DIR)/lean-$(LEAN_VERSION)-$(LEAN_PLATFORM).zip
 LEAN_DIR := $(TOOLS_DIR)/lean-$(LEAN_VERSION)-$(LEAN_PLATFORM)
+LEAN_BIN := $(LEAN_DIR)/bin/lean
+LEAN_LINK := $(TOOLS_DIR)/lean4
+LAKE_BIN := $(LEAN_DIR)/bin/lake
 
 # === Directory Creation ===
 $(TOOLS_DIR)/:
@@ -96,15 +101,15 @@ lean-verify-all: lean-install
 	done
 
 # === Enhanced Logging System ===
-.PHONY: logs-enhance logs-summary logs-watch
+.PHONY: logs-enhance logs-summary-lean logs-watch
 
 # Add timestamps and better formatting to existing logs
 logs-enhance:
 	@echo "🔧 Enhancing log readability..."
 	@python3 scripts/enhance_logs.py logs/
 
-# Generate summary report
-logs-summary:
+# Generate summary report (Lean version - renamed to avoid conflict)
+logs-summary-lean:
 	@echo "📊 Generating solution summary..."
 	@python3 scripts/summarize_solutions.py logs/ > logs/SUMMARY.md
 	@echo "✅ Summary saved to logs/SUMMARY.md"
